@@ -35,15 +35,15 @@ def word_ladder(start_word, end_word, dictionary_file='words5.dict'):
     '''
     word_list = open(dictionary_file, 'r').readlines()
 
-    wordList = [wordd[:5] for wordd in word_list]
+    word_list = [wordd[:5] for wordd in word_list]
 
     if start_word == end_word:
         return [start_word]
     if len(start_word) != len(end_word):
         return None
 
-    if not end_word or not start_word or not wordList or\
-            end_word not in wordList:
+    if not end_word or not start_word or not word_list or\
+            end_word not in word_list:
         return []
 
     L = len(start_word)
@@ -51,9 +51,9 @@ def word_ladder(start_word, end_word, dictionary_file='words5.dict'):
     # Dictionary to hold combination of words that can be formed,
     # from any given word. By changing one letter at a time.
     all_combo_dict = collections.defaultdict(list)
-    for word in wordList:
+    for word in word_list:
         for i in range(L):
-            all_combo_dict[word[:i] + "*" + word[i+1:]].append(word)
+            all_combo_dict[word[:i] + "*" + word[i + 1:]].append(word)
 
     # Shortest path, BFS
     ans = []
@@ -63,18 +63,18 @@ def word_ladder(start_word, end_word, dictionary_file='words5.dict'):
 
     while queue and not ans:
         length = len(queue)
-        localVisited = set()
+        local_visited = set()
         for _ in range(length):
             word, path = queue.popleft()
             for i in range(L):
-                for nextWord in all_combo_dict[word[:i] + "*" + word[i+1:]]:
-                    if nextWord == end_word:
+                for next_word in all_combo_dict[word[:i] + "*" + word[i + 1:]]:
+                    if next_word == end_word:
                         # path.append(endword)
-                        ans.append(path+[end_word])
-                    if nextWord not in visited:
-                        localVisited.add(nextWord)
-                        queue.append((nextWord, path+[nextWord]))
-        visited = visited.union(localVisited)
+                        ans.append(path + [end_word])
+                    if next_word not in visited:
+                        local_visited.add(next_word)
+                        queue.append((next_word, path + [next_word]))
+        visited = visited.union(local_visited)
     if not ans:
         return None
     else:
@@ -92,7 +92,7 @@ def verify_word_ladder(ladder):
     if len(ladder) == 1:
         verify = True
     for i in range(len(ladder) - 1):
-        if not _adjacent(ladder[i], ladder[i+1]):
+        if not _adjacent(ladder[i], ladder[i + 1]):
             return False
         else:
             verify = True
