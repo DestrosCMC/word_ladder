@@ -46,14 +46,14 @@ def word_ladder(start_word, end_word, dictionary_file='words5.dict'):
             end_word not in word_list:
         return []
 
-    l = len(start_word)
+    lengths = len(start_word)
 
     # Dictionary to hold combination of words that can be formed,
     # from any given word. By changing one letter at a time.
     all_combo_dict = collections.defaultdict(list)
     for word in word_list:
-        for i in range(l):
-            al_combo_dict[word[:i] + "*" + word[i + 1:]].append(word)
+        for i in range(lengths):
+            all_combo_dict[word[:i] + "*" + word[i + 1:]].append(word)
 
     # Shortest path, BFS
     ans = []
@@ -66,7 +66,7 @@ def word_ladder(start_word, end_word, dictionary_file='words5.dict'):
         local_visited = set()
         for _ in range(length):
             word, path = queue.popleft()
-            for i in range(l):
+            for i in range(lengths):
                 for next_word in all_combo_dict[word[:i] + "*" + word[i + 1:]]:
                     if next_word == end_word:
                         # path.append(endword)
